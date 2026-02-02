@@ -9,6 +9,5 @@ public class CreateAppointment
     public Guid ServiceId { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
-    public UserRole UserRole { get; set; }
-    
+    public string AppoinmentTitle { get; set; }
 }

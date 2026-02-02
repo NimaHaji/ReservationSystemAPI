@@ -2,6 +2,7 @@ public class Appointment
 {
     public Guid Id { get; private set; }
     public Guid UserId { get; private set; }
+    public string Title { get; private set; }
     public Guid ServiceId { get; private set; }
     public DateTime StartTime { get; private set; }
     public DateTime EndTime { get; private set; }
@@ -11,7 +12,7 @@ public class Appointment
     {
     }
 
-    public Appointment(Guid userId, Guid serviceId, DateTime starttime, DateTime endtime)
+    public Appointment(Guid userId, Guid serviceId, DateTime starttime, DateTime endtime,string title)
     {
         if (starttime == default || endtime == default)
             throw new ArgumentException("StartTime and EndTime are required");
@@ -24,6 +25,7 @@ public class Appointment
         ServiceId = serviceId;
         StartTime = starttime;
         EndTime = endtime;
+        Title = title;
         Status = AppointmentStatus.Reserved;
     }
 

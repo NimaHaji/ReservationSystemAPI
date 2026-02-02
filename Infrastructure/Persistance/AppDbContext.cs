@@ -24,6 +24,10 @@ public class AppDbContext:DbContext
             
             entity.Property(x => x.EndTime)
                 .IsRequired();
+            
+            entity.Property(x=>x.Title)
+                .IsRequired()
+                .HasMaxLength(20);;
         });
     }
 

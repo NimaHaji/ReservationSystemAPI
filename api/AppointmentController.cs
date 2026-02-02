@@ -20,4 +20,12 @@ public class AppointmentController:ControllerBase
         var id=await _service.CreateAppointmentAsync(dto);
         return Ok(id);
     }
+
+    [HttpPost]
+    [Route("Cancel")]
+    public async Task<IActionResult> Cancel(CancelAppointment appointment)
+    {
+        var result=await _service.DeleteAppointmentAsync(appointment.AppointmentID);
+        return Ok(result);
+    }
 }
