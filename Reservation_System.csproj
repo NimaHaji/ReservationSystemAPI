@@ -11,4 +11,15 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="damane\appsettings.Development.json" />
+      <_ContentIncludedByDefault Remove="damane\appsettings.json" />
+      <_ContentIncludedByDefault Remove="damane\obj\damane.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="damane\obj\project.assets.json" />
+      <_ContentIncludedByDefault Remove="damane\obj\project.packagespec.json" />
+      <_ContentIncludedByDefault Remove="damane\Properties\launchSettings.json" />
+      <_ContentIncludedByDefault Remove="Domain\obj\Domain.csproj.nuget.dgspec.json" />
+      <_ContentIncludedByDefault Remove="Domain\obj\project.assets.json" />
+    </ItemGroup>
+
 </Project>
