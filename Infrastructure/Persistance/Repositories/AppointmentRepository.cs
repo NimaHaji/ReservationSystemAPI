@@ -17,13 +17,7 @@ public class AppointmentRepository:IAppointmentRepository
     public async Task AddAsync(Appointment appointment)
     {
         await _context.Appointments.AddAsync(appointment);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task RemoveAsync(Appointment appointment)
-    {
-        _context.Appointments.Remove(appointment);
-        await _context.SaveChangesAsync();
+        SaveAsync();
     }
 
     public async Task<List<ViewAppointments>> ViewAppointments()
