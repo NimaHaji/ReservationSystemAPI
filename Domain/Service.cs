@@ -17,4 +17,10 @@ public class Service
         Title = title;
         DurationMinutes = durationMinutes;
     }
+
+    public void Edit(int durationMinutes,string title)
+    {
+        DurationMinutes = durationMinutes;
+        Title = title;
+    }
 }

@@ -7,18 +7,33 @@ namespace Application.Services;
 
 public class ServiceAppService:IServiceAppService
 {
-    private readonly IServiceRepository _Repository;
+    private readonly IServiceRepository _repository;
 
-    public ServiceAppService(IServiceRepository repository)
+    public ServiceAppService(IServiceRepository Repository)
     {
-        _Repository = repository;
+        _repository = Repository;
     }
 
     public async Task<string> CreateServiceAsync(CreateService createService)
     {
         var service=new Service(createService.Title,createService.DurationMinutes);
         
-        await _Repository.CreatServiceAsync(service);
+        await _repository.CreatServiceAsync(service);
         return $"{service.Title} created";
     }
+
+    public async Task<string> EditServiceAsync(Guid serviceId,EditService editService)
+    {
+        var appointment = await _repository.GetServiceByIdAsync(serviceId) ?? throw new Exception("Appointment Not Found");
+        
+        appointment.Edit(editService.DurationMinutes,editService.Title);
+        await _repository.SaveChangesAsync();
+        return $"{appointment.Title} Updated";
+    }
+
+    public async Task<List<ViewServices>> ViewAllServicesAsync()
+    {
+        return await _repository.ViewAllServiceAsync();
+    }
+
 }

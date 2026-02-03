@@ -20,4 +20,17 @@ public class ServiceController:ControllerBase
         var id=await _serviceAppService.CreateServiceAsync(service);
         return Ok(id);
     }
+
+    [HttpPatch("Edit")]
+    public async Task<IActionResult> Edit(Guid serviceId,EditService service)
+    {
+        var res= await _serviceAppService.EditServiceAsync(serviceId,service);
+        return Ok(res);
+    }
+
+    [HttpGet("ViewServices")]
+    public async Task<List<ViewServices>> ViewServices()
+    {
+        return await _serviceAppService.ViewAllServicesAsync();
+    }
 }

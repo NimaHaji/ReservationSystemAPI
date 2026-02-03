@@ -31,17 +31,17 @@ public class AppointmentController:ControllerBase
     }
 
     [HttpGet]
-    [Route("View")]
-    public async Task<IActionResult> View()
+    [Route("ViewAppointments")]
+    public async Task<IActionResult> ViewAppointments()
     {
         var appointments=await _service.ViewAppointments();
         return Ok(appointments);
     }
 
-    [HttpPut("Edit{AppointmentId}")]
-    public async Task<IActionResult> Edit(Guid AppointmentId, EditAppointment appointment)
+    [HttpPatch("Edit")]
+    public async Task<IActionResult> Edit(Guid appointmentId, EditAppointment appointment)
     {
-        var res= await _service.UpdateAppointmentAsync(AppointmentId,appointment);
+        var res= await _service.UpdateAppointmentAsync(appointmentId,appointment);
         return Ok(res);
     }
 }

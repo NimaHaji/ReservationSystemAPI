@@ -7,4 +7,6 @@ public interface IServiceRepository
 {
     Task CreatServiceAsync(Service service);
     Task SaveChangesAsync();
-}
+    Task<List<ViewServices>> ViewAllServiceAsync();
+    Task<Service?> GetServiceByIdAsync(Guid serviceId);
+}   
