@@ -11,9 +11,9 @@ public class AppDbContext:DbContext
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Appointment>(entity =>
         {
-            entity.HasKey(e => e.Id);
+            entity.HasKey(e => e.AppointmentId);
 
-            entity.Property(x => x.Id)
+            entity.Property(x => x.AppointmentId)
                 .IsRequired();
             
             entity.Property(x => x.ServiceId)

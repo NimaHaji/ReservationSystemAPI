@@ -15,6 +15,7 @@ public class AppointmentController:ControllerBase
     }
 
     [HttpPost]
+    [Route("Create")]
     public async Task<IActionResult> Create(CreateAppointment dto)
     {
         var id=await _service.CreateAppointmentAsync(dto);
@@ -27,5 +28,20 @@ public class AppointmentController:ControllerBase
     {
         var result=await _service.DeleteAppointmentAsync(appointment.AppointmentID);
         return Ok(result);
+    }
+
+    [HttpGet]
+    [Route("View")]
+    public async Task<IActionResult> View()
+    {
+        var appointments=await _service.ViewAppointments();
+        return Ok(appointments);
+    }
+
+    [HttpPut("Edit{AppointmentId}")]
+    public async Task<IActionResult> Edit(Guid AppointmentId, EditAppointment appointment)
+    {
+        var res= await _service.UpdateAppointmentAsync(AppointmentId,appointment);
+        return Ok(res);
     }
 }

@@ -1,6 +1,6 @@
 public class Appointment
 {
-    public Guid Id { get; private set; }
+    public Guid AppointmentId { get; private set; }
     public Guid UserId { get; private set; }
     public string Title { get; private set; }
     public Guid ServiceId { get; private set; }
@@ -20,7 +20,7 @@ public class Appointment
         if (endtime <= starttime)
             throw new ArgumentException("EndTime must be after StartTime");
 
-        Id = Guid.NewGuid();
+        AppointmentId = Guid.NewGuid();
         UserId = userId;
         ServiceId = serviceId;
         StartTime = starttime;
@@ -35,6 +35,11 @@ public class Appointment
             throw new InvalidOperationException("Already cancelled");
 
         Status = AppointmentStatus.Cancelled;
+    }
+    public void Edit(DateTime starttime, DateTime endtime)
+    {
+        StartTime = starttime;
+        EndTime = endtime;
     }
 }
 

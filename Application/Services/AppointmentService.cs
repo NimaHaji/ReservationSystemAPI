@@ -18,12 +18,26 @@ public class AppointmentService:IAppointmentService
         var apppointment = new Appointment(dto.UserID,dto.ServiceId,dto.StartTime,dto.EndTime,dto.AppoinmentTitle);
         
         await _repository.AddAsync(apppointment);
-        return apppointment.Id;
+        return apppointment.AppointmentId;
     }
 
-    public async Task<Appointment?> GetAppointmentByIDAsync(Guid id)
+    public async Task<string> UpdateAppointmentAsync(Guid AppointmentId,EditAppointment editComponent)
     {
-        return await _repository.GetAppointmentBy(id);
+        var appointment = await _repository.GetAppointmentByIdAsync(AppointmentId) ?? throw new Exception("Appointment Not Found");
+        
+        appointment.Edit(editComponent.StartTime,editComponent.EndTime);
+        await _repository.SaveAsync();
+        return $"{appointment.Title} Updated";
+    }
+
+    public async Task<List<ViewAppointments>> ViewAppointments()
+    {
+        return await _repository.ViewAppointments();
+    }
+
+    public async Task<Appointment?> GetAppointmentByIdAsync(Guid appointmentId)
+    {
+        return await _repository.GetAppointmentByIdAsync(appointmentId);
     }
 
     public async Task<bool> IsExistBy(Guid appointmentId)
@@ -33,10 +47,10 @@ public class AppointmentService:IAppointmentService
 
     public async Task<string> DeleteAppointmentAsync(Guid id)
     {
-        var appoinment = await GetAppointmentByIDAsync(id);
+        var appoinment = await GetAppointmentByIdAsync(id);
         appoinment.Cancel();
         
         await _repository.SaveAsync();
-        return appoinment.Status == AppointmentStatus.Cancelled ? "Canceled" : "OK";
+        return appoinment.Status == AppointmentStatus.Cancelled ? $"{appoinment.Title} Canceled" : "Not Cancled";
     }
 }
