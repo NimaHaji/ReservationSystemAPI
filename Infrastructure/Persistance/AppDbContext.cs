@@ -8,6 +8,7 @@ public class AppDbContext:DbContext
 {
     public DbSet<Appointment> Appointments =>Set<Appointment>();
     public DbSet<Service> Services =>Set<Service>();
+    public  DbSet<User> Users =>Set<User>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -2,8 +2,8 @@ public class Appointment
 {
     public Guid AppointmentId { get; private set; }
     public Guid UserId { get; private set; }
-    public string Title { get; private set; }
     public Guid ServiceId { get; private set; }
+    public string Title { get; private set; }
     public DateTime StartTime { get; private set; }
     public DateTime EndTime { get; private set; }
     public AppointmentStatus Status { get; private set; }

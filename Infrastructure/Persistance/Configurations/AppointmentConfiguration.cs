@@ -14,6 +14,10 @@ public class AppointmentConfiguration:IEntityTypeConfiguration<Appointment>
             
         builder.Property(x => x.ServiceId)
             .IsRequired();
+       
+        builder.Property(x=>x.Title)
+            .IsRequired()
+            .HasMaxLength(20);;
             
         builder.Property(x => x.StartTime)
             .IsRequired();
@@ -21,8 +25,12 @@ public class AppointmentConfiguration:IEntityTypeConfiguration<Appointment>
         builder.Property(x => x.EndTime)
             .IsRequired();
             
-        builder.Property(x=>x.Title)
-            .IsRequired()
-            .HasMaxLength(20);;
+        builder.Property(x=>x.Status)
+            .IsRequired();
+        
+        builder.HasCheckConstraint(
+            "CK_Status_Valid_Values",
+            "[Status] IN (0, 1,2)"
+        );
     }
 }
