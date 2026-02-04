@@ -31,4 +31,11 @@ public class UserController:ControllerBase
         var res=await _service.LoginUserAsync(loginUser);
         return Ok(res);
     }
+
+    [HttpGet]
+    [Route("JwtToken")]
+    public string JwtToken()
+    {
+       return Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N");
+    }
 }
