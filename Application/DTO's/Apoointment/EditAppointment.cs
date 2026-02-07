@@ -1,5 +1,3 @@
-using System.Reflection.PortableExecutable;
-
 namespace Application;
 
 public class EditAppointment

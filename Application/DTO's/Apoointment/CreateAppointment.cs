@@ -1,7 +1,4 @@
-﻿using System.Security.AccessControl;
-using Domain;
-
-namespace Application;
+﻿namespace Application;
 
 public class CreateAppointment
 {

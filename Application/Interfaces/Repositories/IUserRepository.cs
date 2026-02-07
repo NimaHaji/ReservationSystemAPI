@@ -8,4 +8,5 @@ public interface IUserRepository
     Task RegisterUserAsync(User user);
     Task<User?> GetUserByEmailAsync(LoginUser loginUser);
     Task SaveChangesAsync();
+    Task<List<ViewUsers>> GetAllUsersAsync();
 }

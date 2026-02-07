@@ -1,6 +1,6 @@
 using Application.Interfaces;
 using Application.Interfaces.Repositories;
-using Domain;
+
 namespace Application.Services;
 
 public class AppointmentService:IAppointmentService

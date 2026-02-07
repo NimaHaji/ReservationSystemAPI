@@ -7,7 +7,6 @@ namespace Infrastructure.Persistance;
 public class AppointmentRepository:IAppointmentRepository
 {
     private readonly AppDbContext _context;
-    private IAppointmentRepository _appointmentRepositoryImplementation;
 
     public AppointmentRepository(AppDbContext context)
     {
@@ -17,7 +16,7 @@ public class AppointmentRepository:IAppointmentRepository
     public async Task AddAsync(Appointment appointment)
     {
         await _context.Appointments.AddAsync(appointment);
-        SaveAsync();
+        await SaveAsync();
     }
 
     public async Task<List<ViewAppointments>> ViewAppointments()

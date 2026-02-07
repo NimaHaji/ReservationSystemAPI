@@ -6,4 +6,5 @@ public interface IUserService
 {
     Task<string> RegisterUserAsync(RegisterUser registerUser);
     Task<string> LoginUserAsync(LoginUser loginUser);
+    Task<List<ViewUsers>> GetAllUsersAsync();
 }

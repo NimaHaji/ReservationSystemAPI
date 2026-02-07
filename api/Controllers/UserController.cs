@@ -1,7 +1,7 @@
 using Application.DTO_s.User;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 
 namespace api;
 
@@ -10,7 +10,6 @@ namespace api;
 public class UserController:ControllerBase
 {
     private readonly IUserService _service;
-
     public UserController(IUserService service)
     {
         _service = service;
@@ -25,17 +24,26 @@ public class UserController:ControllerBase
     }
 
     [HttpPost]
-    [Route("Login")]
-    public async Task<IActionResult> Login(LoginUser loginUser)
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginUser request)
     {
-        var res=await _service.LoginUserAsync(loginUser);
-        return Ok(res);
+        try
+        {
+            var token = await _service.LoginUserAsync(request);
+            return Ok(token);
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Unauthorized();
+        }
     }
-
+    
     [HttpGet]
-    [Route("JwtToken")]
-    public string JwtToken()
+    [Route("ViewUsers")]
+    [Authorize(Roles =  "Admin")]
+    public async Task<IActionResult> ViewUsers()
     {
-       return Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N");
+        var res= await _service.GetAllUsersAsync();
+        return Ok(res);
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistance;
 
-public class UserRepository:IUserRepository
+public class UserRepository : IUserRepository
 {
     private readonly AppDbContext _context;
 
@@ -31,5 +31,18 @@ public class UserRepository:IUserRepository
     public async Task SaveChangesAsync()
     {
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<ViewUsers>> GetAllUsersAsync()
+    {
+        return await _context
+            .Users
+            .Select(x => new ViewUsers
+            {
+                FullName = x.FullName,
+                Email = x.Email,
+                UserRole = x.Role.ToString(),
+                PhoneNumber = x.PhoneNumber,
+            }).ToListAsync();
     }
 }

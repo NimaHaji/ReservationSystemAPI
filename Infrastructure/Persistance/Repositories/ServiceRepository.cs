@@ -1,5 +1,4 @@
 using Application.DTO_s.Service;
-using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Domain;
 using Microsoft.EntityFrameworkCore;

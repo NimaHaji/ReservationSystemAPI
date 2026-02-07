@@ -1,5 +1,6 @@
 using Application.DTO_s.Service;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api;
@@ -32,5 +33,12 @@ public class ServiceController:ControllerBase
     public async Task<List<ViewServices>> ViewServices()
     {
         return await _serviceAppService.ViewAllServicesAsync();
+    }
+
+    [HttpGet("ping")]
+    [Authorize]
+    public string Ping()
+    {
+        return "pong";
     }
 }
