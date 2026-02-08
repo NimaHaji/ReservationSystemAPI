@@ -2,7 +2,8 @@ using Domain;
 
 namespace Application.Interfaces;
 
-public interface IJwtTokenGenerator
+public interface IJwtTokenService
 {
     string GenerateJwtToken(User user);
+    string GenerateRefreshToken();
 }

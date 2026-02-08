@@ -29,15 +29,18 @@ public class UserController:ControllerBase
     {
         try
         {
-            var token = await _service.LoginUserAsync(request);
-            return Ok(token);
+            return Ok(await _service.LoginUserAsync(request));
         }
         catch (UnauthorizedAccessException)
         {
             return Unauthorized();
         }
     }
-    
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Refresh(RefreshTokenRequest dto)
+    {
+        return Ok(await _service.RefreshTokenAsync(dto.RefreshToken));
+    }
     [HttpGet]
     [Route("ViewUsers")]
     [Authorize(Roles =  "Admin")]

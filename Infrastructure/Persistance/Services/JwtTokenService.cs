@@ -3,16 +3,17 @@ using Application.Interfaces;
 using Domain;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure.Persistance;
 
-public class JwtTokenGenerator:IJwtTokenGenerator
+public class JwtTokenService:IJwtTokenService
 {
     private readonly IConfiguration _configuration;
 
-    public JwtTokenGenerator(IConfiguration configuration)
+    public JwtTokenService(IConfiguration configuration)
     {
         _configuration = configuration;
     }
@@ -43,5 +44,10 @@ public class JwtTokenGenerator:IJwtTokenGenerator
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    public string GenerateRefreshToken()
+    {
+        return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
     }
 }

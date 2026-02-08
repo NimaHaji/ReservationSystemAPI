@@ -5,6 +5,7 @@ namespace Application.Interfaces;
 public interface IUserService
 {
     Task<string> RegisterUserAsync(RegisterUser registerUser);
-    Task<string> LoginUserAsync(LoginUser loginUser);
+    Task<LoginResponse> LoginUserAsync(LoginUser loginUser);
+    Task<LoginResponse> RefreshTokenAsync(string refreshToken);
     Task<List<ViewUsers>> GetAllUsersAsync();
 }

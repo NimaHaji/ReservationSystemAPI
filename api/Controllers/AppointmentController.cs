@@ -1,5 +1,6 @@
 using Application;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api;
@@ -32,6 +33,7 @@ public class AppointmentController:ControllerBase
 
     [HttpGet]
     [Route("ViewAppointments")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ViewAppointments()
     {
         var appointments=await _service.ViewAppointments();
@@ -39,6 +41,7 @@ public class AppointmentController:ControllerBase
     }
 
     [HttpPatch("Edit")]
+    [Authorize]
     public async Task<IActionResult> Edit(Guid appointmentId, EditAppointment appointment)
     {
         var res= await _service.UpdateAppointmentAsync(appointmentId,appointment);

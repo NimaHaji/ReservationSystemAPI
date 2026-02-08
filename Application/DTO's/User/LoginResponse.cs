@@ -1,7 +1,7 @@
 namespace Application.DTO_s.User;
 
-public class LoginResponse
-{
-    public string AccessToken { get; set; }
-    public DateTime ExpiresAt { get; set; }
-}
+public record LoginResponse(
+    string AccessToken,
+    string RefreshToken);
+
+public record RefreshTokenRequest (string RefreshToken);
