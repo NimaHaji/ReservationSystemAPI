@@ -46,4 +46,12 @@ public class ServiceRepository:IServiceRepository
             .Where(x => x.Id == serviceId)
             .FirstOrDefaultAsync();
     }
+
+    public async Task<List<Service>> GetServiceListByIdsAsync(List<Guid> serviceIds)
+    {
+        return await _context
+            .Services
+            .Where(x => serviceIds.Contains(x.Id))
+            .ToListAsync();
+    }
 }

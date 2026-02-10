@@ -40,6 +40,14 @@ public class AppointmentController:ControllerBase
         return Ok(appointments);
     }
 
+    [HttpGet]
+    [Route("ViewMyAppointments")]
+    [Authorize]
+    public async Task<IActionResult> ViewMyAppointments(Guid userId)
+    {
+        var myappointments=await _service.ViewAppointments(userId);
+        return Ok(myappointments);
+    }
     [HttpPatch("Edit")]
     [Authorize]
     public async Task<IActionResult> Edit(Guid appointmentId, EditAppointment appointment)

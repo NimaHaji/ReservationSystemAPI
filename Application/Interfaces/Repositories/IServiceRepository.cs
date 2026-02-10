@@ -9,4 +9,5 @@ public interface IServiceRepository
     Task SaveChangesAsync();
     Task<List<ViewServices>> ViewAllServiceAsync();
     Task<Service?> GetServiceByIdAsync(Guid serviceId);
+    Task<List<Service>> GetServiceListByIdsAsync(List<Guid> serviceIds);
 }   

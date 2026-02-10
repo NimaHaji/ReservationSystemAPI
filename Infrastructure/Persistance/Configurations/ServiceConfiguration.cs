@@ -17,5 +17,12 @@ public class ServiceConfiguration:IEntityTypeConfiguration<Service>
             .HasMaxLength(20);
 
         builder.Property(s => s.DurationMinutes);
+
+        builder.Property(x => x.Title)
+            .IsRequired();
+        
+        builder.HasMany(x=>x.AppointmentServices)
+            .WithOne(x=>x.Service)
+            .HasForeignKey(x=>x.ServiceId);
     }
 }

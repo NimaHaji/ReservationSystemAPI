@@ -16,6 +16,7 @@ public class ServiceController:ControllerBase
     }
 
     [HttpPost("Create")]
+    [Authorize(Roles =  "Admin")]
     public async Task<IActionResult> Create(CreateService service)
     {
         var id=await _serviceAppService.CreateServiceAsync(service);
@@ -33,12 +34,5 @@ public class ServiceController:ControllerBase
     public async Task<List<ViewServices>> ViewServices()
     {
         return await _serviceAppService.ViewAllServicesAsync();
-    }
-
-    [HttpGet("ping")]
-    [Authorize]
-    public string Ping()
-    {
-        return "pong";
     }
 }

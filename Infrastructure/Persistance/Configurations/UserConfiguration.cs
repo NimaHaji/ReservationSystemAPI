@@ -30,7 +30,10 @@ public class UserConfiguration:IEntityTypeConfiguration<User>
         builder.Property(x => x.Password)
             .IsRequired()
             .HasMaxLength(500);
-        
+        builder.HasMany(x=>x.Appointments)
+            .WithOne(x => x.User)
+            .HasForeignKey(x=>x.UserId);
+            
         builder.HasCheckConstraint(
             "CK_Role_Valid_Values",
             "[Role] IN (0, 1)"

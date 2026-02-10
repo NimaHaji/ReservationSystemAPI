@@ -23,8 +23,7 @@ public class UserService:IUserService
     public async Task<string> RegisterUserAsync(RegisterUser registerUser)
     {
         var password= _passwordHasherService.Hash(registerUser.Password);
-        var user=new User(registerUser.FullName,registerUser.Role,registerUser.Email,registerUser.PhoneNumber,password);
-        
+        var user=new User(registerUser.FullName,registerUser.Email,registerUser.PhoneNumber,password);
         await _repository.RegisterUserAsync(user);
         return $"{user.FullName} Registred";
     }
@@ -88,7 +87,6 @@ public class UserService:IUserService
             newRefreshTokenValue);
     
     }
-
 
     public Task<List<ViewUsers>> GetAllUsersAsync()
     {

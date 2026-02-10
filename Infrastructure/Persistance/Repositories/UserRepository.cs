@@ -28,6 +28,11 @@ public class UserRepository : IUserRepository
             .FirstOrDefaultAsync();
     }
 
+    public async Task<bool> IsUserExistsByIdAsync(Guid userId)
+    {
+        return await _context.Users.AnyAsync(x => x.Id == userId);
+    }
+
     public async Task SaveChangesAsync()
     {
         await _context.SaveChangesAsync();
@@ -44,5 +49,12 @@ public class UserRepository : IUserRepository
                 UserRole = x.Role.ToString(),
                 PhoneNumber = x.PhoneNumber,
             }).ToListAsync();
+    }
+
+    public async Task<List<Service>> GetByIdsAsync(List<Guid> ids)
+    {
+        return await _context.Services
+            .Where(s => ids.Contains(s.Id))
+            .ToListAsync();
     }
 }

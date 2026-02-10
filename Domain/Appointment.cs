@@ -1,51 +1,70 @@
-public class Appointment
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Domain
 {
-    public Guid AppointmentId { get; private set; }
-    public Guid UserId { get; private set; }
-    public Guid ServiceId { get; private set; }
-    public string Title { get; private set; }
-    public DateTime StartTime { get; private set; }
-    public DateTime EndTime { get; private set; }
-    public AppointmentStatus Status { get; private set; }
-
-    private Appointment()
+    public class Appointment
     {
+        public Guid AppointmentId { get; private set; }
+        public Guid UserId { get; private set; }
+        public User User { get; private set; } = null!;
+        public string Title { get; private set; }
+        public DateTime StartTime { get; private set; }
+        public DateTime EndTime { get; private set; }
+        public AppointmentStatus Status { get; private set; }
+
+        public ICollection<AppointmentServiceLink> AppointmentServices { get; private set; } = new List<AppointmentServiceLink>();
+
+        private Appointment() { } // For EF
+
+        public Appointment(Guid userId, DateTime startTime, DateTime endTime, string title)
+        {
+            if (startTime == default || endTime == default)
+                throw new ArgumentException("StartTime and EndTime are required");
+            if (endTime <= startTime)
+                throw new ArgumentException("EndTime must be after StartTime");
+
+            AppointmentId = Guid.NewGuid();
+            UserId = userId;
+            StartTime = startTime;
+            EndTime = endTime;
+            Title = title;
+            Status = AppointmentStatus.Reserved;
+        }
+
+        public void AddServices(IEnumerable<Service> services)
+        {
+            foreach (var service in services)
+            {
+                AppointmentServices.Add(new AppointmentServiceLink(AppointmentId, service.Id));
+            }
+        }
+
+        public void Cancel()
+        {
+            if (Status == AppointmentStatus.Cancelled)
+                throw new InvalidOperationException("Already cancelled");
+
+            Status = AppointmentStatus.Cancelled;
+        }
+
+        public void Edit(DateTime startTime, DateTime endTime)
+        {
+            if (startTime == default || endTime == default)
+                throw new ArgumentException("StartTime and EndTime are required");
+            if (endTime <= startTime)
+                throw new ArgumentException("EndTime must be after StartTime");
+
+            StartTime = startTime;
+            EndTime = endTime;
+        }
     }
 
-    public Appointment(Guid userId, Guid serviceId, DateTime starttime, DateTime endtime,string title)
+    public enum AppointmentStatus
     {
-        if (starttime == default || endtime == default)
-            throw new ArgumentException("StartTime and EndTime are required");
-
-        if (endtime <= starttime)
-            throw new ArgumentException("EndTime must be after StartTime");
-
-        AppointmentId = Guid.NewGuid();
-        UserId = userId;
-        ServiceId = serviceId;
-        StartTime = starttime;
-        EndTime = endtime;
-        Title = title;
-        Status = AppointmentStatus.Reserved;
+        Reserved,
+        Cancelled,
+        Completed
     }
-
-    public void Cancel()
-    {
-        if (Status == AppointmentStatus.Cancelled)
-            throw new InvalidOperationException("Already cancelled");
-
-        Status = AppointmentStatus.Cancelled;
-    }
-    public void Edit(DateTime starttime, DateTime endtime)
-    {
-        StartTime = starttime;
-        EndTime = endtime;
-    }
-}
-
-public enum AppointmentStatus
-{
-    Reserved,
-    Cancelled,
-    Completed
 }

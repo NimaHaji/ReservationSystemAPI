@@ -22,8 +22,7 @@ public class UserController:ControllerBase
         var res=await _service.RegisterUserAsync(registerUser);
         return Ok(res);
     }
-
-    [HttpPost]
+    
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginUser request)
     {

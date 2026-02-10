@@ -1,5 +1,6 @@
 using Application;
 using Application.Interfaces.Repositories;
+using Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistance;
@@ -15,7 +16,9 @@ public class AppointmentRepository:IAppointmentRepository
 
     public async Task AddAsync(Appointment appointment)
     {
-        await _context.Appointments.AddAsync(appointment);
+        await _context
+            .Appointments
+            .AddAsync(appointment);
         await SaveAsync();
     }
 
@@ -29,6 +32,26 @@ public class AppointmentRepository:IAppointmentRepository
                 StartTime = x.StartTime,
                 EndTime = x.EndTime,
                 Status = x.Status.ToString()
+            })
+            .ToListAsync();
+    }
+
+    public async Task<List<ViewAppointments>> ViewAppointments(Guid userId)
+    {
+        return await _context
+            .Appointments
+            .Include(x=>x.AppointmentServices)
+            .ThenInclude(x=>x.Service)
+            .Where(x => x.UserId == userId)
+            .Select(x=>new ViewAppointments
+            {
+                AppointmentsTitle =x.Title,
+                StartTime = x.StartTime,
+                EndTime = x.EndTime,
+                Status = x.Status.ToString(),
+                Services = x.AppointmentServices
+                    .Select(s=>s.Service.Title)
+                    .ToList()
             })
             .ToListAsync();
     }

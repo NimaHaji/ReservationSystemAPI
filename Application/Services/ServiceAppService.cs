@@ -17,11 +17,10 @@ public class ServiceAppService:IServiceAppService
     public async Task<string> CreateServiceAsync(CreateService createService)
     {
         var service=new Service(createService.Title,createService.DurationMinutes);
-        
         await _repository.CreatServiceAsync(service);
         return $"{service.Title} created";
     }
-
+    
     public async Task<string> EditServiceAsync(Guid serviceId,EditService editService)
     {
         var appointment = await _repository.GetServiceByIdAsync(serviceId) ?? throw new Exception("Appointment Not Found");
