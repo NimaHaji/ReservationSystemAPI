@@ -45,10 +45,11 @@ public class AppointmentController:ControllerBase
     [Authorize]
     public async Task<IActionResult> ViewMyAppointments(Guid userId)
     {
+        //Not jwt Based
         var myappointments=await _service.ViewAppointments(userId);
         return Ok(myappointments);
     }
-    [HttpPatch("Edit")]
+    [HttpPatch("{appointmentId}")]
     [Authorize]
     public async Task<IActionResult> Edit(Guid appointmentId, EditAppointment appointment)
     {

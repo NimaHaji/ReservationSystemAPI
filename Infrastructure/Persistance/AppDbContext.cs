@@ -10,6 +10,7 @@ public class AppDbContext:DbContext
     public DbSet<Service> Services =>Set<Service>();
     public  DbSet<User> Users =>Set<User>();
     public DbSet<RefreshToken> RefreshTokens =>Set<RefreshToken>();
+    public DbSet<AppointmentServiceLink> AppointmentServiceLinks =>Set<AppointmentServiceLink>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

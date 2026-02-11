@@ -1,6 +1,8 @@
 using Application.Interfaces;
 using Application.Interfaces.Repositories;
+using Domain;
 using Infrastructure.Persistance;
+using Infrastructure.Persistance.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +22,7 @@ public static class DependencyInjection
         services.AddScoped<IPasswordHasher, PasswordHasherService>();
         services.AddScoped<IJwtTokenService, JwtTokenService>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        services.AddScoped<IAppointmenServiceLinkRepository, AppointmentServiceLinkRepository>();
         
         
         return services;

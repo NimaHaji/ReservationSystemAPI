@@ -9,9 +9,9 @@ public class ServiceAppService:IServiceAppService
 {
     private readonly IServiceRepository _repository;
 
-    public ServiceAppService(IServiceRepository Repository)
+    public ServiceAppService(IServiceRepository repository)
     {
-        _repository = Repository;
+        _repository = repository;
     }
 
     public async Task<string> CreateServiceAsync(CreateService createService)

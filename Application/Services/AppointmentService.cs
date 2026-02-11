@@ -9,12 +9,14 @@ public class AppointmentService:IAppointmentService
     private readonly IAppointmentRepository _appointmentRepository;
     private readonly IUserRepository _userRepository;
     private readonly IServiceRepository _serviceRepository;
+    private readonly IAppointmenServiceLinkRepository _appointmenServiceLinkRepository;
     
-    public AppointmentService(IAppointmentRepository repository, IUserRepository userRepository, IServiceRepository serviceRepository)
+    public AppointmentService(IAppointmentRepository repository, IUserRepository userRepository, IServiceRepository serviceRepository, IAppointmenServiceLinkRepository appointmenServiceLinkRepository)
     {
         _appointmentRepository = repository;
         _userRepository = userRepository;
         _serviceRepository = serviceRepository;
+        _appointmenServiceLinkRepository = appointmenServiceLinkRepository;
     }
 
 
@@ -41,13 +43,21 @@ public class AppointmentService:IAppointmentService
         return $"{appointment.Title} Created";
     }
 
-    public async Task<string> UpdateAppointmentAsync(Guid AppointmentId,EditAppointment editComponent)
+    public async Task<string> UpdateAppointmentAsync(Guid appointmentId,EditAppointment dto)
     {
-        var appointment = await _appointmentRepository.GetAppointmentByIdAsync(AppointmentId) ?? throw new Exception("Appointment Not Found");
-        
-        appointment.Edit(editComponent.StartTime,editComponent.EndTime);
-        await _appointmentRepository.SaveAsync();
-        return $"{appointment.Title} Updated";
+        var currentServiceIds =
+            await _appointmenServiceLinkRepository
+                .GetServiceIdsByAppointmentId(appointmentId);
+
+        var toAdd = dto.ServiceIds.Except(currentServiceIds);
+        var toRemove = currentServiceIds.Except(dto.ServiceIds);
+
+        await _appointmenServiceLinkRepository
+            .RemoveRangeAsync(appointmentId, toRemove);
+
+        await _appointmenServiceLinkRepository
+            .AddRangeAsync(appointmentId, toAdd);
+        return "Appointment Updated";
     }
 
     public async Task<List<ViewAppointments>> ViewAppointments()
@@ -73,9 +83,8 @@ public class AppointmentService:IAppointmentService
     public async Task<string> DeleteAppointmentAsync(Guid id)
     {
         var appoinment = await GetAppointmentByIdAsync(id);
-        appoinment.Cancel();
-        
+        appoinment?.Cancel();
         await _appointmentRepository.SaveAsync();
-        return appoinment.Status == AppointmentStatus.Cancelled ? $"{appoinment.Title} Canceled" : "Not Cancled";
+        return appoinment?.Status == AppointmentStatus.Cancelled ? $"{appoinment.Title} Canceled" : "Not Cancled";
     }
 }
