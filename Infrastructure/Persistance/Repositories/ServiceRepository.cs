@@ -1,9 +1,9 @@
-using Application.DTO_s.Service;
-using Application.Interfaces.Repositories;
-using Domain;
+using Application.Features.Service.DTOs;
+using Application.Features.Service.Interfaces;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistance;
+namespace Infrastructure.Persistance.Repositories;
 
 public class ServiceRepository:IServiceRepository
 {

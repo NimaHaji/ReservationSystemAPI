@@ -22,4 +22,10 @@
       <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Common\" />
+      <Folder Include="Features\AppointmentServiceLink\DTOs\" />
+      <Folder Include="Features\AppointmentServiceLink\Services\" />
+    </ItemGroup>
+
 </Project>

@@ -1,9 +1,9 @@
-using Application.DTO_s.Service;
-using Application.Interfaces;
+using Application.Features.Service.DTOs;
+using Application.Features.Service.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api;
+namespace api.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class ServiceController:ControllerBase

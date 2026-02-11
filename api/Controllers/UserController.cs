@@ -1,9 +1,9 @@
-using Application.DTO_s.User;
-using Application.Interfaces;
+using Application.Features.Auth.DTOs;
+using Application.Features.Auth.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api;
+namespace api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

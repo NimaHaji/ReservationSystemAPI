@@ -1,8 +1,14 @@
-using Application.Interfaces;
-using Application.Interfaces.Repositories;
+using Application.Common.Interfaces;
+using Application.Common.Interfaces.Repositories;
+using Application.Features.Appointments.Interfaces;
+using Application.Features.AppointmentServiceLink.Interfaces;
+using Application.Features.Auth.Interfaces;
+using Application.Features.Service.Interfaces;
 using Domain;
 using Infrastructure.Persistance;
 using Infrastructure.Persistance.Repositories;
+using Infrastructure.Security.Hashing;
+using Infrastructure.Security.Jwt;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

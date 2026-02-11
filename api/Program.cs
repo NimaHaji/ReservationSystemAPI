@@ -1,7 +1,7 @@
 using System.Security.Claims;
 using System.Text;
 using Application;
-using Application.Interfaces.Repositories;
+using Application.Common.Interfaces;
 using Infrastructure;
 using Infrastructure.Persistance;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

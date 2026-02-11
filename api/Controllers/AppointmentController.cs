@@ -1,9 +1,9 @@
-using Application;
-using Application.Interfaces;
+using Application.Features.Appointments.DTOs;
+using Application.Features.Appointments.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace api;
+namespace api.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class AppointmentController:ControllerBase

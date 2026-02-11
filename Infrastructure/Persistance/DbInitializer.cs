@@ -1,5 +1,7 @@
-using Application.Interfaces.Repositories;
+using Application.Common.Interfaces;
 using Domain;
+using Domain.Entities;
+using Domain.Enums;
 using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Persistance;

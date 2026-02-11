@@ -1,9 +1,9 @@
-using Application;
-using Application.Interfaces.Repositories;
-using Domain;
+using Application.Features.Appointments.DTOs;
+using Application.Features.Appointments.Interfaces;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistance;
+namespace Infrastructure.Persistance.Repositories;
 
 public class AppointmentRepository:IAppointmentRepository
 {

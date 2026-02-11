@@ -1,9 +1,9 @@
-using Application.DTO_s.User;
-using Application.Interfaces.Repositories;
-using Domain;
+using Application.Features.Auth.DTOs;
+using Application.Features.Auth.Interfaces;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Persistance;
+namespace Infrastructure.Persistance.Repositories;
 
 public class UserRepository : IUserRepository
 {
