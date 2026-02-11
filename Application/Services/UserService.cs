@@ -61,7 +61,10 @@ public class UserService:IUserService
         var storedToken = await _refreshTokenRepository.GetAsync(refreshToken)
                           ?? throw new Exception("Invalid refresh token");
 
-        if (storedToken.IsRevoked || storedToken.ExpiresAt < DateTime.UtcNow)
+        if (storedToken.IsRevoked)
+            throw new Exception("Refresh token already used");
+
+        if (storedToken.ExpiresAt < DateTime.UtcNow)
             throw new Exception("Refresh token expired");
 
         storedToken.IsRevoked = true;
@@ -77,7 +80,7 @@ public class UserService:IUserService
             Id = Guid.NewGuid(),
             Token = newRefreshTokenValue,
             UserId = storedToken.UserId,
-            ExpiresAt = DateTime.UtcNow.AddDays(7)
+            ExpiresAt = storedToken.ExpiresAt
         });
 
         await _refreshTokenRepository.SaveChangesAsync();
@@ -85,8 +88,8 @@ public class UserService:IUserService
         return new LoginResponse(
             newAccessToken,
             newRefreshTokenValue);
-    
     }
+
 
     public Task<List<ViewUsers>> GetAllUsersAsync()
     {
