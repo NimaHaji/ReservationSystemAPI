@@ -27,6 +27,13 @@ public class ServiceRepository:IServiceRepository
         await _context.SaveChangesAsync();
     }
 
+    public async Task DeleteServiceAsync(Guid serviceId)
+    {
+         var service=await GetServiceByIdAsync(serviceId);
+         _context
+             .Remove(service);
+    }
+
     public async Task<List<ViewServices>> ViewAllServiceAsync()
     {
         return await _context

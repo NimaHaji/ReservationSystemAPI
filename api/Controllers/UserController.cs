@@ -15,8 +15,7 @@ public class UserController:ControllerBase
         _service = service;
     }
 
-    [HttpPost]
-    [Route("Register")]
+    [HttpPost("Register")]
     public async Task<IActionResult> Register(RegisterUser registerUser)
     {
         var res=await _service.RegisterUserAsync(registerUser);
@@ -26,26 +25,21 @@ public class UserController:ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginUser request)
     {
-        try
-        {
             return Ok(await _service.LoginUserAsync(request));
-        }
-        catch (UnauthorizedAccessException)
-        {
-            return Unauthorized();
-        }
     }
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh(RefreshTokenRequest dto)
     {
         return Ok(await _service.RefreshTokenAsync(dto.RefreshToken));
     }
-    [HttpGet]
-    [Route("ViewUsers")]
+    [HttpGet("ViewUsers")]
     [Authorize(Roles =  "Admin")]
     public async Task<IActionResult> ViewUsers()
     {
         var res= await _service.GetAllUsersAsync();
         return Ok(res);
     }
+    //Logout not implemented
+    //Password forget not implemented
+    //Profile(jwt based) not implemented
 }

@@ -15,24 +15,35 @@ public class ServiceController:ControllerBase
         _serviceAppService = serviceAppService;
     }
 
-    [HttpPost("Create")]
-    [Authorize(Roles =  "Admin")]
-    public async Task<IActionResult> Create(CreateService service)
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Create([FromBody] CreateService service)
     {
-        var id=await _serviceAppService.CreateServiceAsync(service);
-        return Ok(id);
+        var res=await _serviceAppService.CreateServiceAsync(service);
+        return Ok(res);
     }
 
-    [HttpPatch("Edit")]
-    public async Task<IActionResult> Edit(Guid serviceId,EditService service)
+    [HttpPatch("{serviceId}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Edit([FromRoute] Guid serviceId,[FromBody] EditService service)
     {
         var res= await _serviceAppService.EditServiceAsync(serviceId,service);
         return Ok(res);
     }
-
+    
     [HttpGet("ViewServices")]
+    [Authorize]
     public async Task<List<ViewServices>> ViewServices()
     {
         return await _serviceAppService.ViewAllServicesAsync();
     }
+
+    [HttpDelete("{serviceId}")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Delete([FromRoute] Guid serviceId)
+    {
+       var res = await _serviceAppService.DeleteServiceAsync(serviceId);
+       return Ok(res);
+    }
+    
 }

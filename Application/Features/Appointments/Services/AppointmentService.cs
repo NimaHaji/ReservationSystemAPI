@@ -29,7 +29,11 @@ public class AppointmentService : IAppointmentService
         _userContext = userContext;
     }
 
-
+    private void EnsureAdmin()
+    {
+        if (_userContext.Role!=UserRole.Admin)
+            throw new UnauthorizedAccessException("Only Admin Access");
+    }
     public async Task<string> CreateAppointmentAsync(CreateAppointment dto)
     {
         if (!_userContext.IsAuthenticated)
@@ -89,9 +93,7 @@ public class AppointmentService : IAppointmentService
 
     public async Task<List<ViewAppointments>> ViewAppointments()
     {
-        if (_userContext.Role != UserRole.Admin)
-            throw new ForbiddenAccessException("Only admin users can view appointments");
-        
+        EnsureAdmin();
         return await _appointmentRepository.ViewAppointments();
     }
 
