@@ -6,10 +6,10 @@ namespace Application.Features.Appointments.Interfaces;
 public interface IAppointmentService
 {
     Task<string> CreateAppointmentAsync(CreateAppointment dto);
-    Task<string> DeleteAppointmentAsync(Guid id);
+    Task<string> CancelAppointmentAsync(Guid id);
     Task<Appointment?> GetAppointmentByIdAsync(Guid appointmentId);
-    Task<string> UpdateAppointmentAsync(Guid AppointmentId,EditAppointment editAppointment);
+    Task<string> UpdateAppointmentAsync(Guid appointmentId,EditAppointment editAppointment);
     Task<List<ViewAppointments>> ViewAppointments();
-    Task<List<ViewAppointments>> ViewAppointments(Guid userId);
+    Task<List<ViewAppointments>> ViewMyAppointments();
     Task<bool> IsExistBy(Guid appointmentId);
 }

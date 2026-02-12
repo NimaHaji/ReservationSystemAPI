@@ -16,18 +16,18 @@ public class AppointmentController:ControllerBase
     }
 
     [HttpPost]
-    [Route("Create")]
-    public async Task<IActionResult> Create(CreateAppointment dto)
+    [Authorize]
+    public async Task<IActionResult> Create([FromBody]CreateAppointment dto)
     {
-        var id=await _service.CreateAppointmentAsync(dto);
-        return Ok(id);
+        var res=await _service.CreateAppointmentAsync(dto);
+        return Ok(res);
     }
 
-    [HttpPost]
-    [Route("Cancel")]
-    public async Task<IActionResult> Cancel(CancelAppointment appointment)
+    [HttpDelete("{appointmentId}")]
+    [Authorize]
+    public async Task<IActionResult> Cancel([FromRoute]Guid appointmentId)
     {
-        var result=await _service.DeleteAppointmentAsync(appointment.AppointmentID);
+        var result=await _service.CancelAppointmentAsync(appointmentId);
         return Ok(result);
     }
 
@@ -43,15 +43,14 @@ public class AppointmentController:ControllerBase
     [HttpGet]
     [Route("ViewMyAppointments")]
     [Authorize]
-    public async Task<IActionResult> ViewMyAppointments(Guid userId)
+    public async Task<IActionResult> ViewMyAppointments()
     {
-        //Not jwt Based
-        var myappointments=await _service.ViewAppointments(userId);
+        var myappointments=await _service.ViewAppointments();
         return Ok(myappointments);
     }
     [HttpPatch("{appointmentId}")]
     [Authorize]
-    public async Task<IActionResult> Edit(Guid appointmentId, EditAppointment appointment)
+    public async Task<IActionResult> Edit([FromRoute]Guid appointmentId,[FromBody] EditAppointment appointment)
     {
         var res= await _service.UpdateAppointmentAsync(appointmentId,appointment);
         return Ok(res);

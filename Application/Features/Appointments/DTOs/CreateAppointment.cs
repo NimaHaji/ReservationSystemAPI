@@ -5,8 +5,6 @@ namespace Application.Features.Appointments.DTOs;
 public class CreateAppointment
 {
     [Required]
-    public Guid UserID { get; set; }
-    [Required]
     public List<Guid> ServiceId { get; set; } = new ();
     [Required]    
     public DateTime StartTime { get; set; }
