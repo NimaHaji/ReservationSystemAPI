@@ -1,9 +1,12 @@
 using System.Security.Claims;
 using System.Text;
 using Application;
+using Application.Common;
 using Application.Common.Interfaces;
+using Domain.Entities;
 using Infrastructure;
 using Infrastructure.Persistance;
+using Infrastructure.Security.Hashing;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -72,6 +75,8 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddScoped<IHasher, Sha256Hasher>();
 
 var app = builder.Build();
 

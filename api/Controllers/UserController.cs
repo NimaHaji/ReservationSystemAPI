@@ -25,7 +25,7 @@ public class UserController:ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginUser request)
     {
-            return Ok(await _service.LoginUserAsync(request));
+        return Ok(await _service.LoginUserAsync(request));
     }
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh(RefreshTokenRequest dto)

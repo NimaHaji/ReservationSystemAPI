@@ -23,7 +23,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Common\" />
       <Folder Include="Features\AppointmentServiceLink\DTOs\" />
       <Folder Include="Features\AppointmentServiceLink\Services\" />
     </ItemGroup>

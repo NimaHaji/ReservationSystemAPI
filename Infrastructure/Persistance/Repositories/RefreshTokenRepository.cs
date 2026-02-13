@@ -23,6 +23,7 @@ public class RefreshTokenRepository:IRefreshTokenRepository
     public async Task AddAsync(RefreshToken token)
     {
         await _context.RefreshTokens.AddAsync(token);
+        await SaveChangesAsync();
     }
 
     public async Task SaveChangesAsync()
