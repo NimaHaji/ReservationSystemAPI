@@ -2,8 +2,11 @@ using System.Security.Claims;
 using System.Text;
 using Application;
 using Application.Common;
-using Application.Common.Interfaces;
+using Application.Validators;
+using Application.Validators.User;
 using Domain.Entities;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Infrastructure;
 using Infrastructure.Persistance;
 using Infrastructure.Security.Hashing;
@@ -13,7 +16,9 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddFluentValidation(x=>x.AutomaticValidationEnabled = true);
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(option =>
@@ -78,6 +83,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddScoped<IHasher, Sha256Hasher>();
 
+builder.Services.AddValidatorsFromAssemblyContaining<AssemblyReference>();
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

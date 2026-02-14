@@ -1,5 +1,6 @@
 using Application.Features.Auth.DTOs;
 using Application.Features.Auth.Interfaces;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,25 +11,25 @@ namespace api.Controllers;
 public class UserController:ControllerBase
 {
     private readonly IUserService _service;
-    public UserController(IUserService service)
+    public UserController(IUserService service, IValidator<RegisterUser> validator)
     {
         _service = service;
     }
 
     [HttpPost("Register")]
-    public async Task<IActionResult> Register(RegisterUser registerUser)
+    public async Task<IActionResult> Register([FromBody]RegisterUser registerUser)
     {
         var res=await _service.RegisterUserAsync(registerUser);
         return Ok(res);
     }
     
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginUser request)
+    public async Task<IActionResult> Login([FromBody]LoginUser request)
     {
         return Ok(await _service.LoginUserAsync(request));
     }
     [HttpPost("refresh")]
-    public async Task<IActionResult> Refresh(RefreshTokenRequest dto)
+    public async Task<IActionResult> Refresh([FromBody]RefreshTokenRequest dto)
     {
         return Ok(await _service.RefreshTokenAsync(dto.RefreshToken));
     }

@@ -1,6 +1,4 @@
 using Application.Common;
-using Application.Common.Interfaces;
-using Domain;
 using Domain.Entities;
 using Domain.Enums;
 using Microsoft.Extensions.Configuration;
