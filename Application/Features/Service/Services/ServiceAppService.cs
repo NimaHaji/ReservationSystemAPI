@@ -3,6 +3,7 @@ using Application.Features.Service.DTOs;
 using Application.Features.Service.Interfaces;
 using Domain.Enums;
 using Domain.Exceptions;
+using Domain.Entities;
 
 namespace Application.Features.Service.Services;
 

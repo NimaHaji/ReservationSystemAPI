@@ -8,10 +8,10 @@ public class LoginUserValidator:AbstractValidator<LoginUser>
     public LoginUserValidator()
     {
         RuleFor(x => x.Email)
-            .EmailAddress().WithMessage("Invalid email address");
+            .EmailAddress().WithMessage("ایمیل نا معتبر است .");
 
         RuleFor(x => x.Password)
             .NotEmpty()
-            .WithMessage("Password is required");
+            .WithMessage("پسوورد الزامی است .");
     }
 }

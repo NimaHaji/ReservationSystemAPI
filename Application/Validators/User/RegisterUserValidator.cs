@@ -9,34 +9,34 @@ public class RegisterUserValidator : AbstractValidator<RegisterUser>
     {
         RuleFor(x => x.FullName)
             .Cascade(CascadeMode.Stop)
-            .NotEmpty().WithMessage("Full name is required")
+            .NotEmpty().WithMessage("نام کامل الزامی است .")
             .Must(name => !string.IsNullOrWhiteSpace(name))
-            .WithMessage("Full name cannot be empty or whitespace")
+            .WithMessage("نام کامل نباید خالی یا فاصله باشد .")
             .MaximumLength(50)
-            .WithMessage("Full name must not exceed 50 characters");
+            .WithMessage("نام کامل نمیتواند بیشتر از 50 کاراکتر باشد");
 
         RuleFor(x => x.Email)
             .Cascade(CascadeMode.Stop)
-            .NotEmpty().WithMessage("Email is required")
-            .EmailAddress().WithMessage("Email format is invalid")
+            .NotEmpty().WithMessage("ایمیل الزامی است .")
+            .EmailAddress().WithMessage("ایمیل معتیر نیست .")
             .MaximumLength(100);
 
         RuleFor(x => x.Password)
             .Cascade(CascadeMode.Stop)
-            .NotEmpty().WithMessage("Password is required")
+            .NotEmpty().WithMessage("پسورد الزامی است")
             .MinimumLength(8)
-            .WithMessage("Password must be at least 8 characters")
+            .WithMessage("پسوورد باید حداقل 8 کاراکتر داشته باشد .")
             .Matches("[A-Z]")
-            .WithMessage("Password must contain at least one uppercase letter")
+            .WithMessage("پسوورد باید حداقل شامل یک حرف بزرگ باشد .")
             .Matches("[a-z]")
-            .WithMessage("Password must contain at least one lowercase letter")
+            .WithMessage("پسوورد باید حداقل یک حرف کوچک داشته باشد .")
             .Matches("[0-9]")
-            .WithMessage("Password must contain at least one digit");
+            .WithMessage("پسوورد باید حداقل یک عدد داشته باشد .");
 
         RuleFor(x => x.PhoneNumber)
             .Cascade(CascadeMode.Stop)
-            .NotEmpty().WithMessage("Phone number is required")
+            .NotEmpty().WithMessage("شماره موبایل الزامی است .")
             .Matches(@"^09\d{9}$")
-            .WithMessage("Phone number must be a valid mobile number");
+            .WithMessage("شماره موبایل باید معتبر باشد .");
     }
 }
