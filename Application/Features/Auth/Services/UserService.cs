@@ -14,15 +14,17 @@ public class UserService : IUserService
     private readonly IPasswordHasher _passwordHasher; 
     private readonly IJwtTokenService _jwtTokenService;
     private readonly IRefreshTokenRepository _refreshTokenRepository;
+    private readonly IUSerContext _userContext;
 
     public UserService(IUserRepository repository, IJwtTokenService jwtTokenGenerator,
-        IRefreshTokenRepository refreshTokenRepository, IHasher hasher, IPasswordHasher passwordHasher)
+        IRefreshTokenRepository refreshTokenRepository, IHasher hasher, IPasswordHasher passwordHasher, IUSerContext userContext)
     {
         _repository = repository;
         _jwtTokenService = jwtTokenGenerator;
         _refreshTokenRepository = refreshTokenRepository;
         _hasher = hasher;
         _passwordHasher = passwordHasher;
+        _userContext = userContext;
     }
 
     public async Task<string> RegisterUserAsync(RegisterUser registerUser)
@@ -62,6 +64,18 @@ public class UserService : IUserService
         return new LoginResponse(token, refreshTokenValue);
     }
 
+    public async Task<string> LogoutUserAsync()
+    {
+        var userId =_userContext.UserId;
+        var refreshTokens =await _refreshTokenRepository.GetRefreshTokensByIdAsync(userId);
+        foreach (var token in refreshTokens)
+        {
+            token.IsRevoked = true;
+        }
+        await _refreshTokenRepository.SaveChangesAsync();
+        return "User Logged out .";
+    }
+
     public async Task<LoginResponse> RefreshTokenAsync(string refreshToken)
     {
         var hashedToken = _hasher.Hash(refreshToken);
@@ -79,7 +93,7 @@ public class UserService : IUserService
         
         var rotateWindow = TimeSpan.FromMinutes(5);
 
-        string newRefreshTokenValue = null;
+        string? newRefreshTokenValue = null;
 
         if (storedToken.ExpiresAt - DateTime.UtcNow <= rotateWindow)
         {
@@ -103,8 +117,6 @@ public class UserService : IUserService
             newRefreshTokenValue ?? refreshToken
         );
     }
-
-
 
     public Task<List<ViewUsers>> GetAllUsersAsync()
     {

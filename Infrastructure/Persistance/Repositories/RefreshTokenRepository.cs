@@ -30,4 +30,12 @@ public class RefreshTokenRepository:IRefreshTokenRepository
     {
         await _context.SaveChangesAsync();
     }
+
+    public async Task<List<RefreshToken>?> GetRefreshTokensByIdAsync(Guid userId)
+    {
+        return await _context
+            .RefreshTokens
+            .Where(x=>x.UserId == userId && !x.IsRevoked)
+            .ToListAsync();
+    }
 }

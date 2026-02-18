@@ -11,6 +11,7 @@ using Infrastructure;
 using Infrastructure.Persistance;
 using Infrastructure.Security.Hashing;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -84,6 +85,25 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<IHasher, Sha256Hasher>();
 
 builder.Services.AddValidatorsFromAssemblyContaining<AssemblyReference>();
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var errors = context.ModelState
+            .Where(x => x.Value.Errors.Count > 0)
+            .ToDictionary(
+                x => x.Key,
+                x => x.Value.Errors
+                    .Select(e => e.ErrorMessage)
+                    .ToArray()
+            );
+
+        return new BadRequestObjectResult(new
+        {
+            errors
+        });
+    };
+});
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

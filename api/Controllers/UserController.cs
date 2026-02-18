@@ -41,6 +41,16 @@ public class UserController:ControllerBase
         return Ok(res);
     }
     //Logout not implemented
+    [HttpPost("Logout")]
+    [Authorize]
+    public async Task<IActionResult> Logout()
+    {
+        var res=await _service.LogoutUserAsync();
+        return Ok(res);
+    }
+    
+    
+    
     //Password forget not implemented
     //Profile(jwt based) not implemented
 }
