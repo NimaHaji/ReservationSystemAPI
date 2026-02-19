@@ -35,4 +35,10 @@ public class User
         PhoneNumber = phoneNumber;
         Password = password;
     }
+
+    public void UpdateProfile(string fullName,string phoneNumber)
+    {
+        FullName= fullName;
+        PhoneNumber = phoneNumber;
+    }
 }

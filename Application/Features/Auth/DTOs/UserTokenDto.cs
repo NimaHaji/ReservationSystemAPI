@@ -1,6 +1,6 @@
 namespace Application.Features.Auth.DTOs;
 
-public class UserToken
+public class UserTokenDto
 {
     public Guid UserId { get; set; }
     public string Email { get; set; }

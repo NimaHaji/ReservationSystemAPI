@@ -1,6 +1,6 @@
 namespace Application.Features.Auth.DTOs;
 
-public class RegisterUser
+public class RegisterUserRequestDto
 {
     public string FullName { get; set; }
     public string Email  { get; set; }

@@ -4,9 +4,11 @@ namespace Application.Features.Auth.Interfaces;
 
 public interface IUserService
 {
-    Task<string> RegisterUserAsync(RegisterUser registerUser);
-    Task<LoginResponse> LoginUserAsync(LoginUser loginUser);
+    Task<string> RegisterUserAsync(RegisterUserRequestDto registerUserRequestDto);
+    Task<LoginUserResponseDto> LoginUserAsync(LoginUserRequestDto loginUserRequestDto);
     Task<string> LogoutUserAsync();
-    Task<LoginResponse> RefreshTokenAsync(string refreshToken);
-    Task<List<ViewUsers>> GetAllUsersAsync();
+    Task<LoginUserResponseDto> RefreshTokenAsync(string refreshToken);
+    Task<ProfileResponseDto> ViewProfileAsync();
+    Task<ProfileResponseDto> UpdateProfileAsync(UpdateProfileRequestDto updateProfileRequestDto);
+    Task<List<ViewUser>> GetAllUsersAsync();
 }

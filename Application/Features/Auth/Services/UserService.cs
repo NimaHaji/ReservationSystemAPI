@@ -9,17 +9,18 @@ namespace Application.Features.Auth.Services;
 
 public class UserService : IUserService
 {
-    private readonly IUserRepository _repository;
+    private readonly IUserRepository _userRepository;
     private readonly IHasher _hasher;
-    private readonly IPasswordHasher _passwordHasher; 
+    private readonly IPasswordHasher _passwordHasher;
     private readonly IJwtTokenService _jwtTokenService;
     private readonly IRefreshTokenRepository _refreshTokenRepository;
     private readonly IUSerContext _userContext;
 
     public UserService(IUserRepository repository, IJwtTokenService jwtTokenGenerator,
-        IRefreshTokenRepository refreshTokenRepository, IHasher hasher, IPasswordHasher passwordHasher, IUSerContext userContext)
+        IRefreshTokenRepository refreshTokenRepository, IHasher hasher, IPasswordHasher passwordHasher,
+        IUSerContext userContext)
     {
-        _repository = repository;
+        _userRepository = repository;
         _jwtTokenService = jwtTokenGenerator;
         _refreshTokenRepository = refreshTokenRepository;
         _hasher = hasher;
@@ -27,29 +28,30 @@ public class UserService : IUserService
         _userContext = userContext;
     }
 
-    public async Task<string> RegisterUserAsync(RegisterUser registerUser)
+    public async Task<string> RegisterUserAsync(RegisterUserRequestDto registerUserRequestDto)
     {
-        var password = _passwordHasher.Hash(registerUser.Password);
-        var user = new User(registerUser.FullName, registerUser.Email, registerUser.PhoneNumber, password);
-        await _repository.RegisterUserAsync(user);
+        var password = _passwordHasher.Hash(registerUserRequestDto.Password);
+        var user = new User(registerUserRequestDto.FullName, registerUserRequestDto.Email,
+            registerUserRequestDto.PhoneNumber, password);
+        await _userRepository.RegisterUserAsync(user);
         return $"{user.FullName} Registred";
     }
 
-    public async Task<LoginResponse> LoginUserAsync(LoginUser loginUser)
+    public async Task<LoginUserResponseDto> LoginUserAsync(LoginUserRequestDto loginUserRequestDto)
     {
-        var user = await _repository.GetUserByEmailAsync(loginUser);
+        var user = await _userRepository.GetUserByEmailAsync(loginUserRequestDto);
 
         if (user == null)
             throw new UnauthorizedAccessException("Invalid email or password");
 
-        var isValid = _passwordHasher.Verify(user.Password, loginUser.Password);
+        var isValid = _passwordHasher.Verify(user.Password, loginUserRequestDto.Password);
 
         if (!isValid)
             throw new UnauthorizedAccessException("Invalid email or password");
 
         var token = _jwtTokenService.GenerateJwtToken(user);
         var refreshTokenValue = _jwtTokenService.GenerateRefreshToken();
-        var refreshTokenHash =_hasher.Hash(refreshTokenValue);
+        var refreshTokenHash = _hasher.Hash(refreshTokenValue);
         var refreshToken = new RefreshToken
         {
             Id = Guid.NewGuid(),
@@ -61,22 +63,23 @@ public class UserService : IUserService
         await _refreshTokenRepository.AddAsync(refreshToken);
         await _refreshTokenRepository.SaveChangesAsync();
 
-        return new LoginResponse(token, refreshTokenValue);
+        return new LoginUserResponseDto(token, refreshTokenValue);
     }
 
     public async Task<string> LogoutUserAsync()
     {
-        var userId =_userContext.UserId;
-        var refreshTokens =await _refreshTokenRepository.GetRefreshTokensByIdAsync(userId);
+        var userId = _userContext.UserId;
+        var refreshTokens = await _refreshTokenRepository.GetRefreshTokensByIdAsync(userId);
         foreach (var token in refreshTokens)
         {
             token.IsRevoked = true;
         }
+
         await _refreshTokenRepository.SaveChangesAsync();
         return "User Logged out .";
     }
 
-    public async Task<LoginResponse> RefreshTokenAsync(string refreshToken)
+    public async Task<LoginUserResponseDto> RefreshTokenAsync(string refreshToken)
     {
         var hashedToken = _hasher.Hash(refreshToken);
 
@@ -90,7 +93,7 @@ public class UserService : IUserService
             throw new Exception("Refresh token expired");
 
         var newAccessToken = _jwtTokenService.GenerateJwtToken(storedToken.User);
-        
+
         var rotateWindow = TimeSpan.FromMinutes(5);
 
         string? newRefreshTokenValue = null;
@@ -112,14 +115,48 @@ public class UserService : IUserService
         }
 
         await _refreshTokenRepository.SaveChangesAsync();
-        return new LoginResponse(
+        return new LoginUserResponseDto(
             newAccessToken,
             newRefreshTokenValue ?? refreshToken
         );
     }
 
-    public Task<List<ViewUsers>> GetAllUsersAsync()
+    public async Task<ProfileResponseDto> ViewProfileAsync()
     {
-        return _repository.GetAllUsersAsync();
+        var userId = _userContext.UserId;
+        var user = await _userRepository.GetUserByIdAsync(userId);
+        return new ProfileResponseDto
+        {
+            Id = user.Id,
+            FullName = user.FullName,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
+            Role = user.Role.ToString()
+        };
+    }
+
+    public async Task<ProfileResponseDto> UpdateProfileAsync(UpdateProfileRequestDto dto)
+    {
+        var userId = _userContext.UserId;
+        var user = await _userRepository.GetUserByIdAsync(userId)
+            ??  throw new UnauthorizedAccessException("Invalid user id");
+        
+        user.UpdateProfile(dto.FullName,dto.PhoneNumber);
+        
+        await _userRepository.SaveChangesAsync();
+
+        return new ProfileResponseDto()
+        {
+            Id = user.Id,
+            FullName = user.FullName,
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber,
+            Role = user.Role.ToString()
+        };
+    }
+
+    public async Task<List<ViewUser>> GetAllUsersAsync()
+    {
+        return await _userRepository.GetAllUsersAsync();
     }
 }

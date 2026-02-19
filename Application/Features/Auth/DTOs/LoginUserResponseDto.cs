@@ -1,6 +1,6 @@
 namespace Application.Features.Auth.DTOs;
 
-public record LoginResponse(
+public record LoginUserResponseDto(
     string AccessToken,
     string? RefreshToken);
 

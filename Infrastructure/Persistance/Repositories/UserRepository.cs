@@ -20,11 +20,11 @@ public class UserRepository : IUserRepository
         await SaveChangesAsync();
     }
 
-    public async Task<User?> GetUserByEmailAsync(LoginUser loginUser)
+    public async Task<User?> GetUserByEmailAsync(LoginUserRequestDto loginUserRequestDto)
     {
         return await _context
             .Users
-            .Where(x => loginUser.Email == x.Email)
+            .Where(x => loginUserRequestDto.Email == x.Email)
             .FirstOrDefaultAsync();
     }
 
@@ -38,11 +38,11 @@ public class UserRepository : IUserRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<List<ViewUsers>> GetAllUsersAsync()
+    public async Task<List<ViewUser>> GetAllUsersAsync()
     {
         return await _context
             .Users
-            .Select(x => new ViewUsers
+            .Select(x => new ViewUser
             {
                 FullName = x.FullName,
                 Email = x.Email,
@@ -51,10 +51,11 @@ public class UserRepository : IUserRepository
             }).ToListAsync();
     }
 
-    public async Task<List<Service>> GetByIdsAsync(List<Guid> ids)
+    public async Task<User?> GetUserByIdAsync(Guid userId)
     {
-        return await _context.Services
-            .Where(s => ids.Contains(s.Id))
-            .ToListAsync();
+        return await _context
+            .Users
+            .Where(x => x.Id == userId)
+            .FirstOrDefaultAsync();
     }
 }

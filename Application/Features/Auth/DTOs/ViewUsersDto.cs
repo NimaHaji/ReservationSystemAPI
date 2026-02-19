@@ -1,6 +1,6 @@
 namespace Application.Features.Auth.DTOs;
 
-public class ViewUsers
+public class ViewUser
 {
     public string FullName { get; set; }
     public string UserRole { get; set; }

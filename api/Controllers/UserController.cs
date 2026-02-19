@@ -11,22 +11,22 @@ namespace api.Controllers;
 public class UserController:ControllerBase
 {
     private readonly IUserService _service;
-    public UserController(IUserService service, IValidator<RegisterUser> validator)
+    public UserController(IUserService service)
     {
         _service = service;
     }
 
     [HttpPost("Register")]
-    public async Task<IActionResult> Register([FromBody]RegisterUser registerUser)
+    public async Task<IActionResult> Register([FromBody]RegisterUserRequestDto registerUserRequestDto)
     {
-        var res=await _service.RegisterUserAsync(registerUser);
+        var res=await _service.RegisterUserAsync(registerUserRequestDto);
         return Ok(res);
     }
     
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody]LoginUser request)
+    public async Task<IActionResult> Login([FromBody]LoginUserRequestDto requestDto)
     {
-        return Ok(await _service.LoginUserAsync(request));
+        return Ok(await _service.LoginUserAsync(requestDto));
     }
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh([FromBody]RefreshTokenRequest dto)
@@ -40,7 +40,6 @@ public class UserController:ControllerBase
         var res= await _service.GetAllUsersAsync();
         return Ok(res);
     }
-    //Logout not implemented
     [HttpPost("Logout")]
     [Authorize]
     public async Task<IActionResult> Logout()
@@ -48,9 +47,21 @@ public class UserController:ControllerBase
         var res=await _service.LogoutUserAsync();
         return Ok(res);
     }
-    
-    
-    
     //Password forget not implemented
+    
     //Profile(jwt based) not implemented
+    [HttpGet("Profile")]
+    [Authorize]
+    public async Task<IActionResult> Profile()
+    {
+        var profile = await _service.ViewProfileAsync();
+        return Ok(profile);
+    }
+
+    [HttpPatch("Profile")]
+    [Authorize]
+    public async Task<ProfileResponseDto> UpdateProfile([FromBody] UpdateProfileRequestDto updateProfileRequestDto)
+    {
+        return await _service.UpdateProfileAsync(updateProfileRequestDto);
+    }
 }
