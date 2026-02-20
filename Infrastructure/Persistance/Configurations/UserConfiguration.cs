@@ -33,6 +33,15 @@ public class UserConfiguration:IEntityTypeConfiguration<User>
         builder.HasMany(x=>x.Appointments)
             .WithOne(x => x.User)
             .HasForeignKey(x=>x.UserId);
+
+        builder.Property(x => x.PasswordResetCodeHash)
+            .HasMaxLength(500);
+
+        builder.Property(x => x.PasswordResetCodeExpireAt);
+        
+        builder.Property(x => x.PasswordResetAttemptsCount)
+            .IsRequired()
+            .HasDefaultValue(0);
             
         builder.HasCheckConstraint(
             "CK_Role_Valid_Values",

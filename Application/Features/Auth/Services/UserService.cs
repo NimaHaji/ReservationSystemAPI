@@ -15,10 +15,11 @@ public class UserService : IUserService
     private readonly IJwtTokenService _jwtTokenService;
     private readonly IRefreshTokenRepository _refreshTokenRepository;
     private readonly IUSerContext _userContext;
+    private readonly IVerificationCodeGenerator _verificationCodeGenerator;
 
     public UserService(IUserRepository repository, IJwtTokenService jwtTokenGenerator,
         IRefreshTokenRepository refreshTokenRepository, IHasher hasher, IPasswordHasher passwordHasher,
-        IUSerContext userContext)
+        IUSerContext userContext, IVerificationCodeGenerator verificationCodeGenerator)
     {
         _userRepository = repository;
         _jwtTokenService = jwtTokenGenerator;
@@ -26,6 +27,7 @@ public class UserService : IUserService
         _hasher = hasher;
         _passwordHasher = passwordHasher;
         _userContext = userContext;
+        _verificationCodeGenerator = verificationCodeGenerator;
     }
 
     public async Task<string> RegisterUserAsync(RegisterUserRequestDto registerUserRequestDto)
@@ -39,7 +41,7 @@ public class UserService : IUserService
 
     public async Task<LoginUserResponseDto> LoginUserAsync(LoginUserRequestDto loginUserRequestDto)
     {
-        var user = await _userRepository.GetUserByEmailAsync(loginUserRequestDto);
+        var user = await _userRepository.GetUserByEmailAsync(loginUserRequestDto.Email);
 
         if (user == null)
             throw new UnauthorizedAccessException("Invalid email or password");

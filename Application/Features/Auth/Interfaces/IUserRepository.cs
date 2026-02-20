@@ -6,7 +6,7 @@ namespace Application.Features.Auth.Interfaces;
 public interface IUserRepository
 {
     Task RegisterUserAsync(User user);
-    Task<User?> GetUserByEmailAsync(LoginUserRequestDto loginUserRequestDto);
+    Task<User?> GetUserByEmailAsync(string email);
     Task<bool> IsUserExistsByIdAsync(Guid userId);
     Task SaveChangesAsync();
     Task<List<ViewUser>> GetAllUsersAsync();

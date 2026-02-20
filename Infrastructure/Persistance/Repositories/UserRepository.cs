@@ -20,11 +20,11 @@ public class UserRepository : IUserRepository
         await SaveChangesAsync();
     }
 
-    public async Task<User?> GetUserByEmailAsync(LoginUserRequestDto loginUserRequestDto)
+    public async Task<User?> GetUserByEmailAsync(string email)
     {
         return await _context
             .Users
-            .Where(x => loginUserRequestDto.Email == x.Email)
+            .Where(x => email == x.Email)
             .FirstOrDefaultAsync();
     }
 

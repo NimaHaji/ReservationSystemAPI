@@ -2,8 +2,6 @@ using System.Security.Claims;
 using System.Text;
 using Application;
 using Application.Common;
-using Application.Validators;
-using Application.Validators.User;
 using Domain.Entities;
 using FluentValidation;
 using FluentValidation.AspNetCore;
