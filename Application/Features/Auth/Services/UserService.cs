@@ -3,7 +3,9 @@ using Application.Common.Interfaces;
 using Application.Common.Interfaces.Repositories;
 using Application.Features.Auth.DTOs;
 using Application.Features.Auth.Interfaces;
+using Domain.Aggregates.User;
 using Domain.Entities;
+using Domain.Repository;
 
 namespace Application.Features.Auth.Services;
 
@@ -14,12 +16,12 @@ public class UserService : IUserService
     private readonly IPasswordHasher _passwordHasher;
     private readonly IJwtTokenService _jwtTokenService;
     private readonly IRefreshTokenRepository _refreshTokenRepository;
-    private readonly IUSerContext _userContext;
+    private readonly IUserContext _userContext;
     private readonly IVerificationCodeGenerator _verificationCodeGenerator;
 
     public UserService(IUserRepository repository, IJwtTokenService jwtTokenGenerator,
         IRefreshTokenRepository refreshTokenRepository, IHasher hasher, IPasswordHasher passwordHasher,
-        IUSerContext userContext, IVerificationCodeGenerator verificationCodeGenerator)
+        IUserContext userContext, IVerificationCodeGenerator verificationCodeGenerator)
     {
         _userRepository = repository;
         _jwtTokenService = jwtTokenGenerator;

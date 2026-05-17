@@ -1,4 +1,5 @@
 using Application.Features.Appointments.DTOs;
+using Domain.Aggregates.Appointment;
 using Domain.Entities;
 
 namespace Application.Features.Appointments.Interfaces;

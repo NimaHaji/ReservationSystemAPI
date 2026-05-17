@@ -2,6 +2,7 @@ using Application.Common.Interfaces;
 using Application.Features.Auth.Interfaces;
 using Domain.Entities;
 using Domain.Exceptions;
+using Domain.Repository;
 
 namespace Application.Features.Auth.Services;
 
@@ -55,13 +56,5 @@ public class PasswordRecoveryService:IPasswordRecoveryService
         );
 
         await _userRepository.SaveChangesAsync();
-        
-        //Implement Email Service
-        
-        // await _emailService.SendAsync(
-        //     email,
-        //     "Password Reset Code",
-        //     $"Your verification code is: {code}"
-        // );
     }
 }

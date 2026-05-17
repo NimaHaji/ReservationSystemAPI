@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Infrastructure.Security.Context;
 
-public class UserContext : IUSerContext
+public class UserContext : IUserContext
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 

@@ -1,3 +1,4 @@
+using Domain.Aggregates.User;
 using Domain.Entities;
 
 namespace Application.Common.Interfaces;

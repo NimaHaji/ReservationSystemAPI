@@ -1,12 +1,12 @@
 using Application.Common.Interfaces;
 using Application.Features.Appointments.DTOs;
 using Application.Features.Appointments.Interfaces;
-using Application.Features.AppointmentServiceLink.Interfaces;
 using Application.Features.Auth.Interfaces;
-using Application.Features.Service.Interfaces;
+using Domain.Aggregates.Appointment;
 using Domain.Entities;
 using Domain.Enums;
 using Domain.Exceptions;
+using Domain.Repository;
 
 namespace Application.Features.Appointments.Services;
 
@@ -16,11 +16,11 @@ public class AppointmentService : IAppointmentService
     private readonly IUserRepository _userRepository;
     private readonly IServiceRepository _serviceRepository;
     private readonly IAppointmenServiceLinkRepository _appointmenServiceLinkRepository;
-    private readonly IUSerContext _userContext;
+    private readonly IUserContext _userContext;
 
     public AppointmentService(IAppointmentRepository repository, IUserRepository userRepository,
         IServiceRepository serviceRepository, IAppointmenServiceLinkRepository appointmenServiceLinkRepository,
-        IUSerContext userContext)
+        IUserContext userContext)
     {
         _appointmentRepository = repository;
         _userRepository = userRepository;

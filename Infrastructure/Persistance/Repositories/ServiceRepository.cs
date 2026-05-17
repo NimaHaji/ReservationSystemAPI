@@ -1,6 +1,7 @@
 using Application.Features.Service.DTOs;
-using Application.Features.Service.Interfaces;
+using Domain.Aggregates.Service;
 using Domain.Entities;
+using Domain.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistance.Repositories;

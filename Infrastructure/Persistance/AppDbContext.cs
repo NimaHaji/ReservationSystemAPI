@@ -1,3 +1,6 @@
+using Domain.Aggregates.Appointment;
+using Domain.Aggregates.Service;
+using Domain.Aggregates.User;
 using Domain.Entities;
 using Infrastructure.Persistance.Configurations;
 using Microsoft.EntityFrameworkCore;

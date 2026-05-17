@@ -1,6 +1,8 @@
 using Application.Features.Appointments.DTOs;
 using Application.Features.Appointments.Interfaces;
+using Domain.Aggregates.Appointment;
 using Domain.Entities;
+using Domain.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistance.Repositories;

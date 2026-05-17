@@ -1,4 +1,4 @@
-namespace Application.Features.AppointmentServiceLink.Interfaces;
+namespace Domain.Repository;
 
 public interface IAppointmenServiceLinkRepository
 {

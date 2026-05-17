@@ -2,9 +2,8 @@ using Application.Common;
 using Application.Common.Interfaces;
 using Application.Common.Interfaces.Repositories;
 using Application.Features.Appointments.Interfaces;
-using Application.Features.AppointmentServiceLink.Interfaces;
 using Application.Features.Auth.Interfaces;
-using Application.Features.Service.Interfaces;
+using Domain.Repository;
 using Infrastructure.Persistance;
 using Infrastructure.Persistance.Repositories;
 using Infrastructure.Security;
@@ -32,7 +31,7 @@ public static class DependencyInjection
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
         services.AddScoped<IAppointmenServiceLinkRepository, AppointmentServiceLinkRepository>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
-        services.AddScoped<IUSerContext, UserContext>();
+        services.AddScoped<IUserContext, UserContext>();
         services.AddScoped<IVerificationCodeGenerator, VerificationCodeGenerator>();
         
         return services;

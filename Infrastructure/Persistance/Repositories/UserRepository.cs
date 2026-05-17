@@ -1,6 +1,8 @@
 using Application.Features.Auth.DTOs;
 using Application.Features.Auth.Interfaces;
+using Domain.Aggregates.User;
 using Domain.Entities;
+using Domain.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistance.Repositories;

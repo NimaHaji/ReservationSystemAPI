@@ -18,4 +18,9 @@
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\AppointmentServiceLink\Interfaces\" />
+      <Folder Include="Features\Service\Interfaces\" />
+    </ItemGroup>
+
 </Project>

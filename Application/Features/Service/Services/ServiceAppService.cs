@@ -1,16 +1,16 @@
 using Application.Common.Interfaces;
 using Application.Features.Service.DTOs;
-using Application.Features.Service.Interfaces;
 using Domain.Enums;
 using Domain.Exceptions;
+using Domain.Repository;
 
 namespace Application.Features.Service.Services;
 
 public class ServiceAppService:IServiceAppService
 {
     private readonly IServiceRepository _repository;
-    private readonly IUSerContext _userContext;
-    public ServiceAppService(IServiceRepository repository, IUSerContext context)
+    private readonly IUserContext _userContext;
+    public ServiceAppService(IServiceRepository repository, IUserContext context)
     {
         _repository = repository;
         _userContext = context;
@@ -24,7 +24,7 @@ public class ServiceAppService:IServiceAppService
     public async Task<string> CreateServiceAsync(CreateService createService)
     {
         EnsureAdmin();
-        var service=new Domain.Entities.Service(createService.Title,createService.DurationMinutes);
+        var service=new Domain.Aggregates.Service.Service(createService.Title,createService.DurationMinutes);
         await _repository.CreatServiceAsync(service);
         return $"{service.Title} created";
     }

@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Application.Common.Interfaces;
+using Domain.Aggregates.User;
 using Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -32,7 +33,7 @@ public class JwtTokenService:IJwtTokenService
             Encoding.UTF8.GetBytes(_configuration["JwtSettings:SecretKey"])
         );
 
-        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var expiresMinutes = int.Parse(_configuration["JwtSettings:AccessTokenMinutes"]);
 
         var token = new JwtSecurityToken(

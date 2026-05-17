@@ -1,5 +1,5 @@
-using Application.Features.AppointmentServiceLink.Interfaces;
 using Domain.Entities;
+using Domain.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistance.Repositories;

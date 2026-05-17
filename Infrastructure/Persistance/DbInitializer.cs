@@ -1,4 +1,5 @@
 using Application.Common;
+using Domain.Aggregates.User;
 using Domain.Entities;
 using Domain.Enums;
 using Microsoft.Extensions.Configuration;

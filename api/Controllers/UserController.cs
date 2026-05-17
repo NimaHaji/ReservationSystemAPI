@@ -60,4 +60,5 @@ public class UserController:ControllerBase
     {
         return await _service.UpdateProfileAsync(updateProfileRequestDto);
     }
+
 }
